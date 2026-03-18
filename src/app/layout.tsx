@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import TopMenu from "@/components/TopMenu";
-import { getServerSession } from "next-auth/next";       
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import NextAuthProvider from "@/providers/NextAuthProvider"; 
+import { getServerSession } from "next-auth";
+import NextAuthProvider from "@/providers/NextAuthProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
 
 const geistSans = Geist({
@@ -27,17 +26,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession();
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ReduxProvider>
-        <NextAuthProvider session={session}>
-          <TopMenu/>
-          {children}
-        </NextAuthProvider>
+          <NextAuthProvider session={session}>
+            <TopMenu />
+            {children}
+          </NextAuthProvider>
         </ReduxProvider>
       </body>
     </html>
