@@ -1,4 +1,3 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from 'next-auth';
 import getUserProfile from "@/libs/getUserProfile";
 import Car from "@/db/models/Car";
@@ -29,10 +28,10 @@ export default async function DashboardPage() {
                 "picture":     picture,
                 "seats":       seats,
                 "doors":       doors,
-                "largebags":   largebags,   
-                "smallbags":   smallbags,   
-                "automatic":   automatic,  
-                "dayRate":     dayRate,  
+                "largebags":   largebags,
+                "smallbags":   smallbags,
+                "automatic":   automatic,
+                "dayRate":     dayRate,
             });
         } catch (error) {
             console.log(error);
@@ -41,9 +40,8 @@ export default async function DashboardPage() {
         revalidateTag("cars");
         redirect("/car");
     };
-    // ─────────────────────────────────────────────────────────────
 
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession()
 
     if (!session || !session.user.token) return null
 
@@ -53,7 +51,6 @@ export default async function DashboardPage() {
 
     return (
         <main className="bg-slate-100 m-5 p-5">
-            {/* ── Profile Section (โค้ดเดิม) ── */}
             <div className="text-2xl">{profile.data.name}</div>
             <table className="table-auto border-separate border-spacing-2">
                 <tbody>
@@ -72,12 +69,10 @@ export default async function DashboardPage() {
                 </tbody>
             </table>
 
-            {/* ── ฟอร์ม เพิ่มใหม่ เฉพาะ admin ── */}
             {profile.data.role === "admin" ? (
                 <form action={addCar}>
                     <div className="text-xl text-blue-700">Create Car Model</div>
 
-                    {/* Model */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="model">
                             Model
@@ -88,7 +83,6 @@ export default async function DashboardPage() {
                                        text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>
 
-                    {/* Description */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="desc">
                             Description
@@ -99,7 +93,6 @@ export default async function DashboardPage() {
                                        text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>
 
-                    {/* Picture */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="picture">
                             Picture
@@ -110,7 +103,6 @@ export default async function DashboardPage() {
                                        text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>
 
-                    {/* Seats + Doors + Auto */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="seats">
                             Seats
@@ -130,7 +122,6 @@ export default async function DashboardPage() {
                         <span>Auto</span>
                     </div>
 
-                    {/* Large Bags + Small Bags */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="largebags">
                             Large Bags
@@ -148,7 +139,6 @@ export default async function DashboardPage() {
                                        text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>
 
-                    {/* Daily Rate */}
                     <div className="flex items-center w-1/2 my-2">
                         <label className="w-auto block text-gray-700 pr-4" htmlFor="dayRate">
                             Rate

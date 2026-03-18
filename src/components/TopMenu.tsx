@@ -2,11 +2,10 @@ import styles from './topmenu.module.css'
 import Image from 'next/image'
 import TopMenuItem from './TopMenuItem'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Link from 'next/link'
 
 export default async function TopMenu() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
 
   return (
     <div className={styles.menucontainer}>
